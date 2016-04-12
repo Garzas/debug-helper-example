@@ -1,8 +1,6 @@
 package com.appunite.example.debugutilsexample;
 
 import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
 
 import com.appunite.example.debugutilsexample.dagger.BaseActivityComponent;
 import com.appunite.example.debugutilsexample.dagger.BaseActivityComponentProvider;
