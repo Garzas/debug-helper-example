@@ -4,6 +4,7 @@ import android.content.Context;
 
 
 import com.appunite.example.debugutilsexample.App;
+import com.appunite.example.debugutilsexample.dao.GitHubDao;
 import com.appunite.example.debugutilsexample.service.GitHubService;
 import com.squareup.picasso.Picasso;
 
@@ -27,5 +28,7 @@ public interface AppComponent {
     Picasso getPicasso();
 
     GitHubService getGitHubSerice();
+
+    GitHubDao getGitHubDao();
 
 }
