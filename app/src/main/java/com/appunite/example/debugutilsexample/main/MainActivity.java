@@ -1,6 +1,8 @@
 package com.appunite.example.debugutilsexample.main;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -31,6 +33,8 @@ public class MainActivity extends BaseActivity {
 
     @InjectView(R.id.simple_text)
     TextView simpleText;
+    @InjectView(R.id.main_recyclerview)
+    RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +43,11 @@ public class MainActivity extends BaseActivity {
         MainActivityComponent component = (MainActivityComponent) getActivityComponent();
         component.inject(this);
         ButterKnife.inject(this);
+
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(new MainAdapter());
+
 
         presenter.getStringObservable()
                 .compose(this.<String>bindToLifecycle())
