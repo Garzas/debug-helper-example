@@ -1,4 +1,26 @@
 apply plugin: 'com.android.application'
+apply plugin: 'com.neenbedankt.android-apt'
+
+buildscript {
+    repositories {
+        maven { url "https://jitpack.io" }
+        mavenCentral()
+        jcenter()
+
+    }
+    dependencies {
+        classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        classpath "org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.4.0x"
+    }
+}
+repositories {
+    mavenCentral()
+    jcenter()
+    maven { url 'https://jitpack.io' }
+    flatDir {
+        dirs 'libs'
+    }
+}
 
 android {
     compileSdkVersion 23
@@ -23,5 +45,28 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     compile project(":debugutils")
     testCompile 'junit:junit:4.12'
+    //annotations libraries
+    compile 'com.google.guava:guava:18.0'
+    provided 'javax.annotation:jsr250-api:1.0'
+    provided 'com.google.code.findbugs:annotations:3.0.0'
+    //support libraries
     compile 'com.android.support:appcompat-v7:23.1.1'
+    //retorfit libraries
+    compile 'com.squareup.retrofit2:retrofit:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:converter-gson:2.0.0-beta4'
+    compile 'com.squareup.retrofit2:adapter-rxjava:2.0.0-beta4'
+    compile 'com.squareup.okhttp3:okhttp:3.1.2'
+    //rxjava libraries
+    compile 'io.reactivex:rxjava:1.0.14'
+    compile 'io.reactivex:rxandroid:0.24.0'
+    compile 'com.trello:rxlifecycle:0.4.0'
+    compile 'com.trello:rxlifecycle-components:0.4.0'
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    //dagger libraries
+    compile 'com.google.dagger:dagger:2.0.2'
+    apt 'com.google.dagger:dagger-compiler:2.0.2'
+    //picasso libraries
+    compile 'com.squareup.picasso:picasso:2.5.2'
+    compile 'com.jakewharton.picasso:picasso2-okhttp3-downloader:1.0.2'
+
 }
