@@ -4,14 +4,12 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.appunite.example.debugutilsexample.App;
 import com.appunite.example.debugutilsexample.BaseActivity;
 import com.appunite.example.debugutilsexample.R;
 import com.appunite.example.debugutilsexample.dagger.ActivityModule;
 import com.appunite.example.debugutilsexample.dagger.BaseActivityComponent;
-import com.appunite.example.debugutilsexample.model.Repos;
 import com.appunite.example.debugutilsexample.presenter.MainPresenter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -23,13 +21,15 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity {
 
     @Inject
     MainPresenter presenter;
+
+    @Inject
+    MainAdapter adapter;
 
     @InjectView(R.id.simple_text)
     TextView simpleText;
@@ -46,21 +46,15 @@ public class MainActivity extends BaseActivity {
 
         LinearLayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(layoutManager);
-        recyclerView.setAdapter(new MainAdapter());
-
+        recyclerView.setAdapter(adapter);
 
         presenter.getStringObservable()
                 .compose(this.<String>bindToLifecycle())
                 .subscribe(RxTextView.text(simpleText));
 
-        presenter.getRepositoriesList()
-                .compose(this.<List<Repos>>bindToLifecycle())
-                .subscribe(new Action1<List<Repos>>() {
-                    @Override
-                    public void call(List<Repos> reposList) {
-                        Toast.makeText(getApplicationContext(), "Data was downloaded successful", Toast.LENGTH_SHORT).show();
-                    }
-                });
+        presenter.getItemListObservable()
+                .compose(this.<List<MainPresenter.BaseItem>>bindToLifecycle())
+                .subscribe(adapter);
     }
 
     @Nonnull
