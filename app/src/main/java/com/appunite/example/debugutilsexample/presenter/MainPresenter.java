@@ -1,9 +1,12 @@
 package com.appunite.example.debugutilsexample.presenter;
 
 
+import android.support.annotation.NonNull;
+
 import com.appunite.example.debugutilsexample.dao.GitHubDao;
 import com.appunite.example.debugutilsexample.detector.SimpleDetector;
 import com.appunite.example.debugutilsexample.model.Repos;
+import com.appunite.rx.ResponseOrError;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
@@ -24,17 +27,19 @@ import rx.observers.Observers;
 public class MainPresenter {
 
     @Nonnull
-    private final Observable<String> stringObservable;
+    private final Observable<String> titleObservable;
     @Nonnull
     private final Observable<List<RepoItem>> repositoriesList;
     @Nonnull
     private final Observable<List<BaseItem>> itemListObservable;
 
     @Inject
-    public MainPresenter(final GitHubDao gitHubDao) {
-        stringObservable = Observable.just("text from presenter");
+    public MainPresenter(@NonNull final GitHubDao gitHubDao) {
+
+        titleObservable = Observable.just("Appunite Repositories");
 
         repositoriesList = gitHubDao.getReposObservable()
+                .compose(ResponseOrError.<List<Repos>>onlySuccess())
                 .map(new Func1<List<Repos>, List<RepoItem>>() {
                     @Override
                     public List<RepoItem> call(List<Repos> repositories) {
@@ -42,7 +47,7 @@ public class MainPresenter {
                             @Nullable
                             @Override
                             public RepoItem apply(Repos repos) {
-                                return new RepoItem(repos.getName());
+                                return new RepoItem(repos.getName(), repos.getDescription());
                             }
                         }));
                     }
@@ -58,13 +63,8 @@ public class MainPresenter {
     }
 
     @Nonnull
-    public Observable<String> getStringObservable() {
-        return stringObservable;
-    }
-
-    @Nonnull
-    public Observable<List<RepoItem>> getRepositoriesList() {
-        return repositoriesList;
+    public Observable<String> getTitleObservable() {
+        return titleObservable;
     }
 
     @Nonnull
@@ -78,9 +78,11 @@ public class MainPresenter {
     public class RepoItem extends BaseItem {
 
         private String name;
+        private String description;
 
-        public RepoItem(String name) {
+        public RepoItem(String name, String description) {
             this.name = name;
+            this.description = description;
         }
 
         @Override
@@ -103,9 +105,6 @@ public class MainPresenter {
             return equals(item);
         }
 
-        public String getName() {
-            return name;
-        }
 
         @Nonnull
         public Observer<Object> clickObserver() {
@@ -114,6 +113,16 @@ public class MainPresenter {
                 public void call(Object o) {
                 }
             });
+        }
+
+        @Nonnull
+        public String getName() {
+            return name;
+        }
+
+        @Nonnull
+        public String getDescription() {
+            return description;
         }
     }
 

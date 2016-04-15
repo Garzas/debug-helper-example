@@ -89,6 +89,8 @@ public class MainAdapter extends RecyclerView.Adapter<BaseViewHolder> implements
 
         @InjectView(R.id.repo_name)
         TextView text;
+        @InjectView(R.id.repo_description)
+        TextView description;
 
         public MainViewHolder(@Nonnull View itemView) {
             super(itemView);
@@ -99,6 +101,7 @@ public class MainAdapter extends RecyclerView.Adapter<BaseViewHolder> implements
         public void bind(@Nonnull MainPresenter.BaseItem item) {
             final MainPresenter.RepoItem repoItem = (MainPresenter.RepoItem) item;
             text.setText(repoItem.getName());
+            description.setText(repoItem.getDescription());
             subscription = new CompositeSubscription(
                     RxView.clicks(text).subscribe(repoItem.clickObserver())
             );

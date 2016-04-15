@@ -12,9 +12,7 @@ import rx.Observable;
 public interface GitHubService {
 
     @Headers("Accept: application/vnd.github.v3+json")
-    @GET("/orgs/{name}/repos")
-    Observable<List<Repos>> getRespos(
-            @Path("name") String name
-    );
+    @GET("/orgs/appunite/repos")
+    Observable<List<Repos>> getRespos();
 
 }

@@ -72,6 +72,12 @@ public class Repos {
     private String defaultBranch;
     private Permissions permissions;
 
+    public Repos(Integer id, String name, String description, Boolean fork) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.fork = fork;
+    }
 
     public Integer getId() {
         return id;

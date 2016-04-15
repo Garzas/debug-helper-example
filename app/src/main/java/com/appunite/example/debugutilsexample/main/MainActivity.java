@@ -48,7 +48,7 @@ public class MainActivity extends BaseActivity {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
 
-        presenter.getStringObservable()
+        presenter.getTitleObservable()
                 .compose(this.<String>bindToLifecycle())
                 .subscribe(RxTextView.text(simpleText));
 
