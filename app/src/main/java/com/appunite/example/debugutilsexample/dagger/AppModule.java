@@ -6,6 +6,8 @@ import android.content.Context;
 import com.appunite.example.debugutilsexample.App;
 import com.appunite.example.debugutilsexample.BuildConfig;
 import com.appunite.example.debugutilsexample.service.GitHubService;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.GsonBuilder;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -69,7 +71,9 @@ public final class AppModule {
 
         return new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
-                .addConverterFactory(GsonConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                        .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
+                        .create()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build()
                 .create(GitHubService.class);
