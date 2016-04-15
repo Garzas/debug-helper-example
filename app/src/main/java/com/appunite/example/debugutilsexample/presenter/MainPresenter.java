@@ -1,8 +1,6 @@
 package com.appunite.example.debugutilsexample.presenter;
 
 
-import android.support.annotation.NonNull;
-
 import com.appunite.example.debugutilsexample.dao.GitHubDao;
 import com.appunite.example.debugutilsexample.detector.SimpleDetector;
 import com.appunite.example.debugutilsexample.model.Repos;
@@ -34,7 +32,7 @@ public class MainPresenter {
     private final Observable<List<BaseItem>> itemListObservable;
 
     @Inject
-    public MainPresenter(@NonNull final GitHubDao gitHubDao) {
+    public MainPresenter(@Nonnull final GitHubDao gitHubDao) {
 
         titleObservable = Observable.just("Appunite Repositories");
 
