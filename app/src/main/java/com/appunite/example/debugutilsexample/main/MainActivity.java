@@ -3,6 +3,7 @@ package com.appunite.example.debugutilsexample.main;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.widget.TextView;
 
 import com.appunite.example.debugutilsexample.App;
@@ -21,6 +22,8 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observer;
+import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity {
@@ -54,7 +57,22 @@ public class MainActivity extends BaseActivity {
 
         presenter.getItemListObservable()
                 .compose(this.<List<MainPresenter.BaseItem>>bindToLifecycle())
-                .subscribe(adapter);
+                .subscribe(new Observer<List<MainPresenter.BaseItem>>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("DebuHelper", e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(List<MainPresenter.BaseItem> baseItems) {
+                        adapter.call(baseItems);
+                    }
+                });
     }
 
     @Nonnull

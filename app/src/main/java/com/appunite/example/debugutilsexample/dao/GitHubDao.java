@@ -22,31 +22,20 @@ import rx.subjects.PublishSubject;
 public class GitHubDao {
 
     @Nonnull
-    private final Observable<ResponseOrError<List<Repos>>> reposObservable;
-    @Nonnull
-    private final PublishSubject<Object> refreshSubject = PublishSubject.create();
+    private final Observable<List<Repos>> reposObservable;
 
     @Inject
     public GitHubDao(final GitHubService service) {
 
         reposObservable = service.getRespos()
-                .compose(ResponseOrError.<List<Repos>>toResponseOrErrorObservable())
-                .compose(MoreOperators.<List<Repos>>repeatOnError(Schedulers.io()))
-//                                .compose(MoreOperators.<ResponseOrError<List<Repos>>>refresh(refreshSubject))
                 .subscribeOn(Schedulers.io())
-                .compose(MoreOperators.<ResponseOrError<List<Repos>>>cacheWithTimeout(AndroidSchedulers.mainThread()))
-                .compose(ObservableExtensions.<ResponseOrError<List<Repos>>>behaviorRefCount())
                 .observeOn(AndroidSchedulers.mainThread());
     }
 
 
     @Nonnull
-    public Observable<ResponseOrError<List<Repos>>> getReposObservable() {
+    public Observable<List<Repos>> getReposObservable() {
         return reposObservable;
     }
 
-    @Nonnull
-    public Observer<Object> refreshObserver() {
-        return refreshSubject;
-    }
 }

@@ -4,7 +4,6 @@ package com.appunite.example.debugutilsexample.presenter;
 import com.appunite.example.debugutilsexample.dao.GitHubDao;
 import com.appunite.example.debugutilsexample.detector.SimpleDetector;
 import com.appunite.example.debugutilsexample.model.Repos;
-import com.appunite.rx.ResponseOrError;
 import com.google.common.base.Function;
 import com.google.common.base.Objects;
 import com.google.common.collect.ImmutableList;
@@ -37,7 +36,6 @@ public class MainPresenter {
         titleObservable = Observable.just("Appunite Repositories");
 
         repositoriesList = gitHubDao.getReposObservable()
-                .compose(ResponseOrError.<List<Repos>>onlySuccess())
                 .map(new Func1<List<Repos>, List<RepoItem>>() {
                     @Override
                     public List<RepoItem> call(List<Repos> repositories) {

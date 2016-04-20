@@ -3,6 +3,7 @@ package com.appunite.example.debugutilsexample.dagger;
 import android.app.Application;
 import android.content.Context;
 
+import com.appunite.debughelper.DebugHelper;
 import com.appunite.example.debugutilsexample.App;
 import com.appunite.example.debugutilsexample.BuildConfig;
 import com.appunite.example.debugutilsexample.service.GitHubService;
@@ -12,12 +13,15 @@ import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Locale;
 
 import javax.inject.Singleton;
 import dagger.Module;
 import dagger.Provides;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Response;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -61,13 +65,15 @@ public final class AppModule {
     @Provides
     @Singleton
     public OkHttpClient provideOkHttpClient() {
-        return new OkHttpClient.Builder().build();
+        return new OkHttpClient.Builder()
+                .addInterceptor(DebugHelper.getDelayInterceptor())
+                .build();
     }
 
 
     @Provides
     @Singleton
-    GitHubService provideRestAdapterBuilder() {
+    GitHubService provideRestAdapterBuilder(OkHttpClient okHttpClient) {
 
         return new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
@@ -75,6 +81,7 @@ public final class AppModule {
                         .setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES)
                         .create()))
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
+                .client(okHttpClient)
                 .build()
                 .create(GitHubService.class);
     }
