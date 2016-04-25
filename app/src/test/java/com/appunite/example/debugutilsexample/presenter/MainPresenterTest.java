@@ -2,7 +2,6 @@ package com.appunite.example.debugutilsexample.presenter;
 
 import com.appunite.example.debugutilsexample.dao.GitHubDao;
 import com.appunite.example.debugutilsexample.model.Repos;
-import com.appunite.rx.ResponseOrError;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
 
@@ -31,11 +30,12 @@ public class MainPresenterTest {
         MockitoAnnotations.initMocks(this);
 
         when(gitHubDao.getReposObservable()).thenReturn(
-                Observable.just(ImmutableList.<Repos>builder()
+                Observable.<List<Repos>>just(ImmutableList.<Repos>builder()
                         .add(new Repos(1, "name", "des1", true))
                         .add(new Repos(2, "name2", "des2", false))
                         .build())
-                        .compose(ResponseOrError.<List<Repos>>toResponseOrErrorObservable()));
+        );
+
         presenter = new MainPresenter(gitHubDao);
 
     }
