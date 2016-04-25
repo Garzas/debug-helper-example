@@ -23,7 +23,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import rx.Observer;
-import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity {
@@ -65,11 +64,12 @@ public class MainActivity extends BaseActivity {
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("DebuHelper", e.getMessage());
+                        Log.e("DebugHelper", e.getMessage());
                     }
 
                     @Override
                     public void onNext(List<MainPresenter.BaseItem> baseItems) {
+                        Log.d("DebugHelper", "onNext");
                         adapter.call(baseItems);
                     }
                 });
