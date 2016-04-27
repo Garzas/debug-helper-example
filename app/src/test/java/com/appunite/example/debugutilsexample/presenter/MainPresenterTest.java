@@ -62,8 +62,24 @@ public class MainPresenterTest {
         MainPresenter.RepoItem repoItem = (MainPresenter.RepoItem) getLastOnNextEvent(listTestObserver).get(0);
 
         assert_().that(repoItem.getName()).isEqualTo("name");
+        assert_().that(repoItem.getDescription()).isEqualTo("des1");
         assert_().that(repoItem.getFork()).isEqualTo(true);
         assert_().that(repoItem.getId()).isEqualTo(1);
+    }
+
+    @Test
+    public void checkIfRepoItemMatches() {
+        TestObserver<List<MainPresenter.BaseItem>> listTestObserver = new TestObserver<>();
+
+        presenter.getItemListObservable().subscribe(listTestObserver);
+
+        MainPresenter.RepoItem repoItem = (MainPresenter.RepoItem) getLastOnNextEvent(listTestObserver).get(0);
+        MainPresenter.RepoItem repoItemClone = presenter.new RepoItem("name", "des1", true, 1);
+
+        assert_().that(repoItem.equals(repoItemClone)).isTrue();
+        assert_().that(repoItem.equals(new Object())).isFalse();
+        assert_().that(repoItem.hashCode()).isEqualTo(repoItemClone.hashCode());
+        assert_().that(repoItem.same(repoItemClone));
     }
 
     @Test
