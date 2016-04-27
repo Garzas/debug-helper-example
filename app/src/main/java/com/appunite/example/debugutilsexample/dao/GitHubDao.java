@@ -11,8 +11,6 @@ import javax.inject.Singleton;
 
 import rx.Observable;
 import rx.Scheduler;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.schedulers.Schedulers;
 
 @Singleton
 public class GitHubDao {
