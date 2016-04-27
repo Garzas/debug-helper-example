@@ -11,6 +11,7 @@ import com.appunite.example.debugutilsexample.BaseActivity;
 import com.appunite.example.debugutilsexample.R;
 import com.appunite.example.debugutilsexample.dagger.ActivityModule;
 import com.appunite.example.debugutilsexample.dagger.BaseActivityComponent;
+import com.appunite.example.debugutilsexample.details.DetailsActivity;
 import com.appunite.example.debugutilsexample.presenter.MainPresenter;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
@@ -22,7 +23,9 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import rx.Observable;
 import rx.Observer;
+import rx.functions.Action1;
 
 
 public class MainActivity extends BaseActivity {
@@ -73,6 +76,15 @@ public class MainActivity extends BaseActivity {
                         adapter.call(baseItems);
                     }
                 });
+
+//        Observable.just(new Object())
+//                .compose(this.bindToLifecycle())
+//                .subscribe(new Action1<Object>() {
+//                    @Override
+//                    public void call(Object o) {
+//                        startActivity(DetailsActivity.newIntent(MainActivity.this));
+//                    }
+//                });
     }
 
     @Nonnull
