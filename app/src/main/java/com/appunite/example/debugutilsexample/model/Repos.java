@@ -70,7 +70,6 @@ public class Repos {
     private Integer openIssues;
     private Integer watchers;
     private String defaultBranch;
-    private Permissions permissions;
 
     public Repos(Integer id, String name, String description, Boolean fork) {
         this.id = id;
@@ -95,7 +94,7 @@ public class Repos {
         return owner;
     }
 
-    public Boolean get_private() {
+    public Boolean getPrivate() {
         return _private;
     }
 
@@ -351,7 +350,4 @@ public class Repos {
         return defaultBranch;
     }
 
-    public Permissions getPermissions() {
-        return permissions;
-    }
 }

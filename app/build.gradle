@@ -44,6 +44,7 @@ android {
         warning 'InvalidPackage'
     }
 }
+apply from: '../qtools/qconfig.gradle'
 
 configurations.all {
     exclude group: 'com.android.support', module: 'support-annotations'

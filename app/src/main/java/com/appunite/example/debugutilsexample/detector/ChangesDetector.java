@@ -85,7 +85,7 @@ public class ChangesDetector<T, H> {
         int counter = 0;
         int toRemove = 0;
 
-        for (;firstListPosition < mItems.size(); ++firstListPosition) {
+        for (; firstListPosition < mItems.size(); ++firstListPosition) {
             final H first = mItems.get(firstListPosition);
             final int indexOf = indexOf(list, secondListPosition, first);
             if (indexOf >= 0) {

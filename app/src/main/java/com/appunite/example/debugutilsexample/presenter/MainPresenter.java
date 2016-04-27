@@ -83,8 +83,12 @@ public class MainPresenter {
 
         @Override
         public boolean equals(Object o) {
-            if (this == o) return true;
-            if (!(o instanceof RepoItem)) return false;
+            if (this == o) {
+                return true;
+            }
+            if (!(o instanceof RepoItem)) {
+                return false;
+            }
 
             final RepoItem that = (RepoItem) o;
 
@@ -101,6 +105,10 @@ public class MainPresenter {
             return equals(item);
         }
 
+        @Override
+        public int hashCode() {
+            return name.hashCode();
+        }
 
         @Nonnull
         public Observer<Object> clickObserver() {
