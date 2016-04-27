@@ -1,6 +1,7 @@
 package com.appunite.example.debugutilsexample.presenter;
 
 import com.appunite.example.debugutilsexample.dao.GitHubDao;
+import com.appunite.example.debugutilsexample.model.Owner;
 import com.appunite.example.debugutilsexample.model.Repos;
 import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Iterables;
@@ -31,8 +32,10 @@ public class MainPresenterTest {
 
         when(gitHubDao.getReposObservable()).thenReturn(
                 Observable.<List<Repos>>just(ImmutableList.<Repos>builder()
-                        .add(new Repos(1, "name", "des1", true))
-                        .add(new Repos(2, "name2", "des2", false))
+                        .add(new Repos(1, "name", "des1", true,
+                                new Owner("login1", 1, "avatar_url1", "html_url1", "organisation")))
+                        .add(new Repos(2, "name2", "des2", false,
+                                new Owner("login2", 2, "avatar_url2", "html_url2", "organisation")))
                         .build())
         );
 
@@ -59,6 +62,8 @@ public class MainPresenterTest {
         MainPresenter.RepoItem repoItem = (MainPresenter.RepoItem) getLastOnNextEvent(listTestObserver).get(0);
 
         assert_().that(repoItem.getName()).isEqualTo("name");
+        assert_().that(repoItem.getFork()).isEqualTo(true);
+        assert_().that(repoItem.getId()).isEqualTo(1);
     }
 
     @Test

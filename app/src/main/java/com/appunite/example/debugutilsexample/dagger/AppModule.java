@@ -6,7 +6,10 @@ import android.content.Context;
 import com.appunite.debughelper.DebugHelper;
 import com.appunite.example.debugutilsexample.App;
 import com.appunite.example.debugutilsexample.BuildConfig;
+import com.appunite.example.debugutilsexample.dao.GitHubDao;
 import com.appunite.example.debugutilsexample.service.GitHubService;
+import com.appunite.rx.dagger.NetworkScheduler;
+import com.appunite.rx.dagger.UiScheduler;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.GsonBuilder;
 import com.jakewharton.picasso.OkHttp3Downloader;
@@ -23,6 +26,7 @@ import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Scheduler;
 
 
 @Module
@@ -72,7 +76,6 @@ public final class AppModule {
     @Provides
     @Singleton
     GitHubService provideRestAdapterBuilder(OkHttpClient okHttpClient) {
-
         return new Retrofit.Builder()
                 .baseUrl("https://api.github.com/")
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
@@ -82,6 +85,14 @@ public final class AppModule {
                 .client(okHttpClient)
                 .build()
                 .create(GitHubService.class);
+    }
+
+    @Provides
+    @Singleton
+    GitHubDao provideGithubDao(GitHubService service,
+                               @UiScheduler Scheduler uiScheduler,
+                               @NetworkScheduler Scheduler networkScheduler) {
+        return new GitHubDao(service, uiScheduler, networkScheduler);
     }
 
     @Provides

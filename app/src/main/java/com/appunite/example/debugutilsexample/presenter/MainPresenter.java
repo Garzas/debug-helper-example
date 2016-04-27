@@ -43,7 +43,11 @@ public class MainPresenter {
                             @Nullable
                             @Override
                             public RepoItem apply(Repos repos) {
-                                return new RepoItem(repos.getName(), repos.getDescription());
+                                return new RepoItem(
+                                        repos.getName(),
+                                        repos.getDescription(),
+                                        repos.getFork(),
+                                        repos.getId());
                             }
                         }));
                     }
@@ -75,10 +79,14 @@ public class MainPresenter {
 
         private String name;
         private String description;
+        private Boolean fork;
+        private Integer id;
 
-        public RepoItem(String name, String description) {
+        public RepoItem(String name, String description, Boolean fork, Integer id) {
             this.name = name;
             this.description = description;
+            this.fork = fork;
+            this.id = id;
         }
 
         @Override
@@ -127,6 +135,16 @@ public class MainPresenter {
         @Nonnull
         public String getDescription() {
             return description;
+        }
+
+        @Nonnull
+        public Boolean getFork() {
+            return fork;
+        }
+
+        @Nonnull
+        public Integer getId() {
+            return id;
         }
     }
 

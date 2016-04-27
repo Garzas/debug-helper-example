@@ -10,6 +10,7 @@ import javax.inject.Inject;
 import javax.inject.Singleton;
 
 import rx.Observable;
+import rx.Scheduler;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
@@ -20,11 +21,11 @@ public class GitHubDao {
     private final Observable<List<Repos>> reposObservable;
 
     @Inject
-    public GitHubDao(final GitHubService service) {
+    public GitHubDao(final GitHubService service, Scheduler uiScheduler, Scheduler networkScheduler) {
 
-        reposObservable = service.getRespos()
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread());
+        reposObservable = service.getRepos()
+                .subscribeOn(networkScheduler)
+                .observeOn(uiScheduler);
     }
 
 

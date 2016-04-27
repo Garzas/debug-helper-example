@@ -12,6 +12,6 @@ public interface GitHubService {
 
     @Headers("Accept: application/vnd.github.v3+json")
     @GET("/orgs/appunite/repos")
-    Observable<List<Repos>> getRespos();
+    Observable<List<Repos>> getRepos();
 
 }

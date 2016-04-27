@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.appunite.example.debugutilsexample.dagger.AppComponent;
 import com.appunite.example.debugutilsexample.dagger.AppModule;
+import com.appunite.example.debugutilsexample.dagger.BaseModule;
 import com.appunite.example.debugutilsexample.dagger.DaggerAppComponent;
 
 
@@ -20,6 +21,7 @@ public class App extends Application {
     private void setupGraph() {
         component = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
+                .baseModule(new BaseModule())
                 .build();
         component.inject(this);
     }

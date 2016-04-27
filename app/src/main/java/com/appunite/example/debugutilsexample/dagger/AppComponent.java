@@ -6,16 +6,20 @@ import android.content.Context;
 import com.appunite.example.debugutilsexample.App;
 import com.appunite.example.debugutilsexample.dao.GitHubDao;
 import com.appunite.example.debugutilsexample.service.GitHubService;
+import com.appunite.rx.dagger.NetworkScheduler;
+import com.appunite.rx.dagger.UiScheduler;
 import com.squareup.picasso.Picasso;
 
 import javax.inject.Singleton;
 
 import dagger.Component;
+import rx.Scheduler;
 
 @Singleton
 @Component(
         modules = {
-                AppModule.class
+                AppModule.class,
+                BaseModule.class,
         }
 )
 public interface AppComponent {
@@ -27,8 +31,14 @@ public interface AppComponent {
 
     Picasso getPicasso();
 
-    GitHubService getGitHubSerice();
+    GitHubService getGitHubService();
 
     GitHubDao getGitHubDao();
+
+    @UiScheduler
+    Scheduler getUiScheduler();
+
+    @NetworkScheduler
+    Scheduler getNetworkScheduler();
 
 }
