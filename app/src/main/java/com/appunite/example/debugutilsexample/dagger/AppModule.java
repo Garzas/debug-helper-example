@@ -68,7 +68,7 @@ public final class AppModule {
     @Singleton
     public OkHttpClient provideOkHttpClient() {
         return new OkHttpClient.Builder()
-                .addInterceptor(DebugHelper.getDelayInterceptor())
+                .addInterceptor(DebugHelper.getResponseInterceptor())
                 .build();
     }
 
