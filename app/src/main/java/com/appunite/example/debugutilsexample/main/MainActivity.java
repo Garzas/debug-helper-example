@@ -1,9 +1,11 @@
 package com.appunite.example.debugutilsexample.main;
 
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import com.appunite.example.debugutilsexample.App;
@@ -12,6 +14,7 @@ import com.appunite.example.debugutilsexample.R;
 import com.appunite.example.debugutilsexample.dagger.ActivityModule;
 import com.appunite.example.debugutilsexample.dagger.BaseActivityComponent;
 import com.appunite.example.debugutilsexample.presenter.MainPresenter;
+import com.appunite.example.debugutilsexample.view.ColoredSnackBar;
 import com.jakewharton.rxbinding.widget.RxTextView;
 
 import java.util.List;
@@ -22,6 +25,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import retrofit2.adapter.rxjava.HttpException;
 import rx.Observer;
 
 
@@ -37,6 +41,8 @@ public class MainActivity extends BaseActivity {
     TextView simpleText;
     @InjectView(R.id.main_recyclerview)
     RecyclerView recyclerView;
+    @InjectView(R.id.main_content)
+    View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +71,11 @@ public class MainActivity extends BaseActivity {
                     @Override
                     public void onError(Throwable e) {
                         Log.e("DebugHelper", e.getMessage());
+                        if (e instanceof HttpException) {
+                            ColoredSnackBar
+                                    .error(view, e.getMessage(), Snackbar.LENGTH_SHORT)
+                                    .show();
+                        }
                     }
 
                     @Override
