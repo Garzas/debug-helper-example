@@ -1,17 +1,17 @@
 package com.appunite.example.debugutilsexample.service;
 
-import android.database.Observable;
-
 import com.appunite.example.debugutilsexample.model.Repos;
 
+import java.util.List;
+
 import retrofit2.http.GET;
-import retrofit2.http.Path;
+import retrofit2.http.Headers;
+import rx.Observable;
 
 public interface GitHubService {
 
-    @GET("/orgs/{name}/repos")
-    Observable<Repos> getRespos(
-            @Path("name") String name
-    );
+    @Headers("Accept: application/vnd.github.v3+json")
+    @GET("/orgs/appunite/repos")
+    Observable<List<Repos>> getRepos();
 
 }

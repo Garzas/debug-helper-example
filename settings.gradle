@@ -1,1 +1,1 @@
-include ':app', ':debugutils'
+include ':app', ':debug-helper'

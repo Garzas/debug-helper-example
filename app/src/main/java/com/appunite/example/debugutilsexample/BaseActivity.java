@@ -2,14 +2,14 @@ package com.appunite.example.debugutilsexample;
 
 import android.os.Bundle;
 
+import com.appunite.debughelper.RxDebugActivity;
 import com.appunite.example.debugutilsexample.dagger.BaseActivityComponent;
 import com.appunite.example.debugutilsexample.dagger.BaseActivityComponentProvider;
-import com.trello.rxlifecycle.components.support.RxAppCompatActivity;
 
 import javax.annotation.Nonnull;
 
 
-public abstract class BaseActivity extends RxAppCompatActivity implements BaseActivityComponentProvider {
+public abstract class BaseActivity extends RxDebugActivity implements BaseActivityComponentProvider {
 
     private BaseActivityComponent activityComponent;
 
